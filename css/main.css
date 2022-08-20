@@ -1,0 +1,101 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'IBMPlexSans-Regular', Fallback, sans-serif;
+    display: block;
+    background-color: #efe8df;
+  }
+  canvas {
+    display: block;
+  }
+  
+  /** Top UI sits here **/
+  main {
+    padding-top: 50px;
+  }
+  
+  .container {
+    display: block;
+    padding-top: 25px;
+    padding-bottom: 25px;
+  }
+  
+  .slider-component {
+    display: block;
+    text-align: center;
+  }
+  
+  .slider {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px;
+    padding-bottom: 25px;
+  }
+  
+  
+  .slider-title-block {
+    margin-bottom: -15px;
+  }
+  
+  h3.slider-label {
+    font-family: 'IBMPlexSans-Regular';
+    text-transform: uppercase;
+    font-size: 1.3rem;
+    font-weight: 400;
+    line-height: 0px;
+  }
+  
+  .label-units {
+    color: #999;
+    line-height: 1;
+  }
+  
+  .range-label {
+    font-family: 'IBMPlexSans-Light';
+    display: inline-block;
+    text-transform: uppercase;  
+    padding-left: 20px;
+    padding-right: 20px;
+    
+  }
+  
+  .btn-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 25px;
+    padding-bottom: 20px;
+  }
+  
+  .btn {
+    width: 160px;
+    height: 40px;
+    cursor: pointer;
+    background: #fff;
+    border: 1px solid #f46a42;
+    border-radius: 4px;
+    outline: none;
+    transition: 0.2s ease-in-out;
+    
+    color: '#000';
+    font-family: 'IBMPlexSans-Light';
+    text-transform: uppercase;  
+    font-size: 18px;
+    font-weight: 100;
+  }
+  
+  .btn:hover {
+    transition: 0.2s ease-in-out;
+    background:#f46a42;
+    color: '#fff';
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  

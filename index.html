@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="p5.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <link rel="stylesheet" type="text/css" href="css/slider.css" />
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <script src="constants.js"></script>
+    <script src="impact.js"></script>
+    <script src="draw.js"></script>
+    <script src="animate.js"></script>
+    <script src="functions.js"></script>
+
+    <main>
+      <container>
+        <!-- Input: Beef -->
+        <div class="slider-component">
+          <div class="slider-title-block">
+            <h3 class="slider-label">Beef</h3>
+            <p class="label-units">(servings/week)</p>
+          </div>
+          <div class="slider">
+            <p class="range-label">Aim</p>
+            <div
+              class="range-slider overlay"
+              style="
+                --min: 0;
+                --max: 10;
+                --value-a: 1;
+                --value-b: 3;
+                --text-value-a: '1';
+                --text-value-b: '3';
+              "
+            >
+              <input
+                id="beef_input_a"
+                type="range"
+                min="0"
+                max="10"
+                value="1"
+                oninput="this.parentNode.style.setProperty('--value-a',this.value); this.parentNode.style.setProperty('--text-value-a', JSON.stringify(this.value))"
+              />
+              <input
+                id="beef_input_b"
+                type="range"
+                min="0"
+                max="10"
+                value="3"
+                oninput="this.parentNode.style.setProperty('--value-b',this.value); this.parentNode.style.setProperty('--text-value-b', JSON.stringify(this.value))"
+              />
+              <div class="range-slider__values">0 1 2 3 4 5 6 7 8 9 10</div>
+              <div class="range-slider__progress"></div>
+            </div>
+            <p class="range-label">Current</p>
+          </div>
+        </div>
+        <!-- End Beef -->
+
+        <!-- Input: Chicken -->
+        <div class="slider-component">
+          <div class="slider-title-block">
+            <h3 class="slider-label">Chicken</h3>
+            <p class="label-units">(servings/week)</p>
+          </div>
+          <div class="slider">
+            <p class="range-label">Aim</p>
+            <div
+              class="range-slider overlay"
+              style="
+                --min: 0;
+                --max: 10;
+                --value-a: 2;
+                --value-b: 4;
+                --text-value-a: '2';
+                --text-value-b: '4';
+              "
+            >
+              <input
+                id="chicken_input_a"
+                type="range"
+                min="0"
+                max="10"
+                value="2"
+                oninput="this.parentNode.style.setProperty('--value-a',this.value); this.parentNode.style.setProperty('--text-value-a', JSON.stringify(this.value))"
+              />
+              <input
+                id="chicken_input_b"
+                type="range"
+                min="0"
+                max="10"
+                value="4"
+                oninput="this.parentNode.style.setProperty('--value-b',this.value); this.parentNode.style.setProperty('--text-value-b', JSON.stringify(this.value))"
+              />
+              <div class="range-slider__values">0 1 2 3 4 5 6 7 8 9 10</div>
+              <div class="range-slider__progress"></div>
+            </div>
+            <p class="range-label">Current</p>
+          </div>
+        </div>
+        <!-- End Chicken -->
+
+        <!-- Input: Beef -->
+        <div class="slider-component">
+          <div class="slider-title-block">
+            <h3 class="slider-label">Pork</h3>
+            <p class="label-units">(servings/week)</p>
+          </div>
+          <div class="slider">
+            <p class="range-label">Aim</p>
+            <div
+              class="range-slider overlay"
+              style="
+                --min: 0;
+                --max: 10;
+                --value-a: 1;
+                --value-b: 3;
+                --text-value-a: '1';
+                --text-value-b: '3';
+              "
+            >
+              <input
+                id="pork_input_a"
+                type="range"
+                min="0"
+                max="10"
+                value="1"
+                oninput="this.parentNode.style.setProperty('--value-a',this.value); this.parentNode.style.setProperty('--text-value-a', JSON.stringify(this.value))"
+              />
+              <input
+                id="pork_input_b"
+                type="range"
+                min="0"
+                max="10"
+                value="3"
+                oninput="this.parentNode.style.setProperty('--value-b',this.value); this.parentNode.style.setProperty('--text-value-b', JSON.stringify(this.value))"
+              />
+              <div class="range-slider__values">0 1 2 3 4 5 6 7 8 9 10</div>
+              <div class="range-slider__progress"></div>
+            </div>
+            <p class="range-label">Current</p>
+          </div>
+        </div>
+        <!-- End Pork -->
+
+        <div class="btn-container">
+          <button id="btn-calculate" class="btn">
+            <span class="btn-label">Calculate</span>
+          </button>
+        </div>
+      </container>
+    </main>
+    <script src="sketch.js"></script>
+  </body>
+</html>
