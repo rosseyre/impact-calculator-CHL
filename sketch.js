@@ -81,6 +81,7 @@ function setup() {
 
 // Animation loop
 function draw() {
+  
   clear()
   background(background_colour)
 
@@ -88,7 +89,7 @@ function draw() {
     if (time_s < animation_length) {
       // Draw elements
       draw_grid_surface(
-        animation.grid.value,
+        animation,
         grid.x_squares,
         grid.y_squares,
         grid.square_size,
@@ -100,5 +101,6 @@ function draw() {
       //draw_water();
       //draw_tree();
     }
+    time_s += seconds_per_frame
   }
 }
