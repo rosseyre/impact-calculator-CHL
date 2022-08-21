@@ -5,10 +5,11 @@ function init_animation() {
   initial_values = []
 
   animation = {
-    grid: create_animation('y_limit', 0, 0, 2),
-    water: create_animation('size', 100, 2, 7),
-    // "tree": create_animation(variable, value, start, end),
-    // "frame": create_animation(variable, value, start, end),
+    grid_y_limit: create_animation(0, 0, 2),
+    tree_opacity: create_animation(0, 1, 1.5), // time with frame
+    water_rotation: create_animation(0, 1.5, 2),
+    // "tree": create_animation(value, start, end),
+    // "frame": create_animation(value, start, end),
     // "title": create_animation(variable, value, start, end),
     // "labels": create_animation(variable, value, start, end)
   }
@@ -22,11 +23,10 @@ function init_animation() {
   }
 }
 
-function create_animation(variable, init_value, start_time, end_time) {
+function create_animation(init_value, start_time, end_time) {
   initial_values.push(init_value)
 
   return {
-    variable: variable,
     value: init_value,
     start: start_time, // ms
     end: end_time, // ms
@@ -39,4 +39,5 @@ function reset_animation_values() {
     element.value = initial_values[i]
     i++
   }
+  time_s = 0
 }

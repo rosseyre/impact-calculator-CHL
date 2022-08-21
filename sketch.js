@@ -1,7 +1,8 @@
 var time_s, seconds_per_frame
-var cam, cam_tilt
+var canvas, cam, cam_tilt, renderer
 var compute_complete
-var img_tree_1, img_water, img_water_gradient, img_cream
+var img_tree_1, img_tree_2, img_tree_3
+var img_water, img_water_gradient, img_cream
 var total_change,
   beef_environmental_change,
   chicken_environmental_change,
@@ -19,6 +20,8 @@ var background_colour, background_colour_RGB, orange_colour
 function preload() {
   font1 = loadFont('assets/fonts/IBMPlexSans-Regular.otf')
   img_tree_1 = loadImage('assets/imgs/tree1.png')
+  img_tree_2 = loadImage('assets/imgs/tree2.png')
+  img_tree_3 = loadImage('assets/imgs/tree3.png')
   img_water = loadImage('assets/imgs/water.png')
   img_water_gradient = loadImage('assets/imgs/water-gradient.png')
 
@@ -26,15 +29,15 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(windowWidth, windowHeight, WEBGL)
+  canvas = createCanvas(windowWidth, windowHeight, WEBGL)
 
   // Paramaters
   let animation_length = 5
-  cam_tilt_degrees = 20
+  cam_tilt_degrees = 15
 
   // Cam setup
   cam = createCamera()
-  cam.setPosition(0, -200, 500) // close-up
+  cam.setPosition(0, -150, 500) // close-up
   angleMode(DEGREES)
   cam_tilt = cam.tilt(cam_tilt_degrees)
 
@@ -81,26 +84,32 @@ function setup() {
 
 // Animation loop
 function draw() {
-  
   clear()
   background(background_colour)
 
   if (compute_complete) {
-    if (time_s < animation_length) {
-      // Draw elements
-      draw_grid_surface(
-        animation,
-        grid.x_squares,
-        grid.y_squares,
-        grid.square_size,
-        grid.grid_width_pixels,
-        grid.stroke_colour,
-        grid.start_colour
-      )
-      //draw_frame();
-      //draw_water();
-      //draw_tree();
-    }
+    // Draw elements
+    draw_grid_surface(animation, grid)
+    draw_tree(animation, tree)
+    draw_water(animation, ring)
+    //draw_frame();
+    //draw_water();
+    //draw_tree();
+
     time_s += seconds_per_frame
   }
+  if (time_s > animation_length) {
+    noLoop()
+  }
+}
+
+function windowResized() {
+  resetCanvas()
+}
+
+function resetCanvas() {
+  reset_animation_values()
+  clear()
+  loop()
+  //setup()
 }
