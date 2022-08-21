@@ -19,20 +19,22 @@ var background_colour, background_colour_RGB, orange_colour
 
 function preload() {
   font1 = loadFont('assets/fonts/IBMPlexSans-Regular.otf')
-  img_tree_1 = loadImage('assets/imgs/tree1.png')
-  img_tree_2 = loadImage('assets/imgs/tree2.png')
-  img_tree_3 = loadImage('assets/imgs/tree3.png')
-  img_water = loadImage('assets/imgs/water.png')
-  img_water_gradient = loadImage('assets/imgs/water-gradient.png')
+  img_tree_1 = loadImage('assets/imgs/tree_1.png')
+  img_tree_2 = loadImage('assets/imgs/tree_2.png')
+  img_tree_3 = loadImage('assets/imgs/tree_3.png')
+
+  img_water = loadImage('assets/imgs/water-ring.png')
+  // img_water = loadImage('assets/imgs/water.png')
+  // img_water_gradient = loadImage('assets/imgs/water-gradient.png')
 
   img_cream = loadImage('assets/imgs/cream.png')
 }
 
 function setup() {
   canvas = createCanvas(windowWidth, windowHeight, WEBGL)
+  setAttributes('alpha', false)
 
   // Paramaters
-  let animation_length = 5
   cam_tilt_degrees = 15
 
   // Cam setup
@@ -77,9 +79,6 @@ function setup() {
   time_s = 0.0
   compute_complete = false
   init_animation()
-
-  // Calculate using default UI inputs (*remove in production)
-  //calculate();
 }
 
 // Animation loop
