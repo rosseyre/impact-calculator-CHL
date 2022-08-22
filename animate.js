@@ -5,9 +5,9 @@ function init_animation() {
   initial_values = []
 
   animation = {
-    grid_y_limit: create_animation(0, 0, 0, 2),
-    tree_opacity: create_animation(0, 255, 1, 1.5), // time with frame
-    water_rotation: create_animation(0, 20, 1.5, 3),
+    grid_y_limit: create_animation(0, 0, 0, 1),
+    tree_opacity: create_animation(0, 255, 0.5, 1.5), // time with frame
+    water_rotation: create_animation(0, 20, 1, 2.5),
     // "tree": create_animation(value, start, end),
     // "frame": create_animation(value, start, end),
     // "title": create_animation(variable, value, start, end),

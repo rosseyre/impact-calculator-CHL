@@ -8,8 +8,8 @@ function compute_elements() {
 
   // Compute elements once
   grid = compute_grid_surface(total_change.land)
-  tree = compute_tree(total_change.c02)
   ring = compute_water(total_change.water)
+  tree = compute_tree(total_change.c02)
 
   compute_complete = true
 }
@@ -27,6 +27,11 @@ function compute_grid_surface(farmland_m2) {
   if (y_squares < x_squares) {
     // ensure min grid visualisation in the case of small values
     y_squares = x_squares
+  }
+
+  if (y_squares > x_squares * 5) {
+    // cap y squares (processing)
+    y_squares = x_squares * 5
   }
 
   let grid_width_pixels = calculate_grid_width(x_squares, square_size)
@@ -105,20 +110,23 @@ function draw_grid_surface(animation, grid) {
 // TREE
 function compute_tree(c02) {
   // size
-  let img_width = width * 0.3
-  let img_ratio = 1.2
-  let img_height = img_ratio * img_width
+  let img_width = width * 0.45
+  let img_ratio = 1.3
+  let img_height = img_width / img_ratio
 
   // tree type
   let inc = round(C02_MAX / 3)
-  let tree_type
+  let tree_image, shadow_image
 
   if (c02 <= inc) {
-    tree_type = img_tree_1
+    tree_image = img_tree_1
+    shadow_image = img_shadow_1
   } else if (c02 <= inc * 2) {
-    tree_type = img_tree_2
+    tree_image = img_tree_2
+    shadow_image = img_shadow_2
   } else {
-    tree_type = img_tree_3
+    tree_image = img_tree_3
+    shadow_image = img_shadow_3
   }
 
   let animation_inc =
@@ -128,7 +136,8 @@ function compute_tree(c02) {
 
   return {
     animation_inc: animation_inc,
-    tree_type: tree_type,
+    tree_image: tree_image,
+    shadow_image: shadow_image,
     img_width: img_width,
     img_height: img_height,
   }
@@ -136,16 +145,31 @@ function compute_tree(c02) {
 
 function draw_tree(animation, tree) {
   if (time_s >= animation.tree_opacity.start) {
+    // shadow
     push()
     noStroke()
     noFill()
 
     tint(255, animation.tree_opacity.value)
+    translate(50, grid_centre_pixels.y, grid_centre_pixels.z * 2 + 30)
 
+    rotateX(90)
+    //tint(0, animation.tree_opacity.value)
+    tint(0, animation.tree_opacity.value - animation.tree_opacity.value * 0.8)
+    texture(tree.tree_image)
+    plane(tree.img_width * 1.6, tree.img_height * 2)
+    pop()
+
+    // Tree
+    push()
+    noStroke()
+    noFill()
+    tint(255, animation.tree_opacity.value)
     translate(0, grid_centre_pixels.y, grid_centre_pixels.z) // move to centre
-    translate(10, -tree.img_height / 2, 0) // move to ground level
+    translate(0, -tree.img_height / 2, 0) // move to ground level
     translate(50, 0, -grid_centre_pixels.z / 3) // offset
-    texture(img_tree_2)
+
+    texture(tree.tree_image)
     plane(tree.img_width, tree.img_height)
     pop()
 
@@ -153,14 +177,6 @@ function draw_tree(animation, tree) {
     if (animation.tree_opacity.value <= animation.tree_opacity.final_value) {
       animation.tree_opacity.value += tree.animation_inc
     }
-
-    // // Bring back png transparency
-    // if (time_s >= animation.tree_opacity.end) {
-    //   push()
-    //   noFill()
-    //   noTint()
-    //   pop()
-    // }
   }
 }
 
@@ -168,19 +184,13 @@ function draw_tree(animation, tree) {
 
 function compute_water(water) {
   // size
-  let outer_ring_size = width * 0.2
-  let inner_ring_size = map(
-    water,
-    0,
-    WATER_MAX,
-    outer_ring_size * 0.95,
-    outer_ring_size * 0.7
-  )
+  let diameter = width * 0.2
 
   let init_pos = createVector(
     grid_centre_pixels.x - 250,
-    -outer_ring_size - 80,
-    grid_centre_pixels.z - 100
+    -diameter - 50,
+    grid_centre_pixels.z + 50 // behind tree
+    //grid_centre_pixels.z + 60 // in front of tree
   )
 
   let animation_inc =
@@ -190,9 +200,7 @@ function compute_water(water) {
 
   return {
     animation_inc: animation_inc,
-    outer_ring_size: outer_ring_size,
-    inner_ring_size,
-    inner_ring_size,
+    diameter: diameter,
     init_pos: init_pos,
   }
 }
@@ -201,31 +209,17 @@ function draw_water(animation, ring) {
   if (time_s >= animation.water_rotation.start) {
     push()
     noStroke()
-
-    //rotateX(cam_tilt_degrees)
-    //translate(grid_centre_pixels.x, -outer_circle_size, grid_centre_pixels.z) // move to centre
-    //translate(ring.init_pos)
-    //rotate(animation.water_rotation)
-    // texture(img_water_gradient)
-    // torus(
-    //   ring.outer_ring_size / 2,
-    //   (ring.outer_ring_size - ring.inner_ring_size) / 2,
-    //   36,
-    //   4
-    // )
-
-    // IMAGE
+    noFill()
     rotateZ(animation.water_rotation.value)
     translate(ring.init_pos)
-    
+
     texture(img_water)
-    plane(width*0.25, width*0.25)
+    plane(ring.diameter, ring.diameter)
 
     pop()
 
     if (animation.water_rotation.value < animation.water_rotation.final_value) {
-      console.log("value: " + animation.water_rotation.value)
-      animation.water_rotation.value += 1//ring.animation_inc
+      animation.water_rotation.value += ring.animation_inc
     }
   }
 }

@@ -2,6 +2,7 @@ var time_s, seconds_per_frame
 var canvas, cam, cam_tilt, renderer
 var compute_complete
 var img_tree_1, img_tree_2, img_tree_3
+var img_shadow_1, img_shadow_2, img_shadow_3
 var img_water, img_water_gradient, img_cream
 var total_change,
   beef_environmental_change,
@@ -19,9 +20,13 @@ var background_colour, background_colour_RGB, orange_colour
 
 function preload() {
   font1 = loadFont('assets/fonts/IBMPlexSans-Regular.otf')
-  img_tree_1 = loadImage('assets/imgs/tree_1.png')
-  img_tree_2 = loadImage('assets/imgs/tree_2.png')
-  img_tree_3 = loadImage('assets/imgs/tree_3.png')
+  img_tree_1 = loadImage('assets/imgs/tree1.png')
+  img_tree_2 = loadImage('assets/imgs/tree2.png')
+  img_tree_3 = loadImage('assets/imgs/tree3.png')
+
+  img_shadow_1 = loadImage('assets/imgs/tree_shadow_1.png')
+  img_shadow_2 = loadImage('assets/imgs/tree_shadow_2.png')
+  img_shadow_3 = loadImage('assets/imgs/tree_shadow_3.png')
 
   img_water = loadImage('assets/imgs/water-ring.png')
   // img_water = loadImage('assets/imgs/water.png')
@@ -32,8 +37,8 @@ function preload() {
 
 function setup() {
   canvas = createCanvas(windowWidth, windowHeight, WEBGL)
-  setAttributes('alpha', false)
-
+  setAttributes('alpha', true)
+  noFill()
   // Paramaters
   cam_tilt_degrees = 15
 
@@ -89,8 +94,9 @@ function draw() {
   if (compute_complete) {
     // Draw elements
     draw_grid_surface(animation, grid)
-    draw_tree(animation, tree)
+
     draw_water(animation, ring)
+    draw_tree(animation, tree)
     //draw_frame();
     //draw_water();
     //draw_tree();
