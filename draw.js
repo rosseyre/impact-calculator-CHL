@@ -6,7 +6,7 @@ var ring
 var frame
 
 function compute_elements() {
-  grid = compute_grid_surface(total_change.land)
+  grid = compute_grid(total_change.land)
   tree = compute_tree(total_change.c02)
   ring = compute_water(total_change.water)
 
@@ -16,13 +16,13 @@ function compute_elements() {
 }
 
 // FARM GRID
-function compute_grid_surface(farmland_m2) {
+function compute_grid(farmland_m2) {
   let x_squares = 16
 
   let m2_per_square = 4 // m^2 per rendered grid 'block'
   let square_size = createVector(
-    (width * 0.5) / x_squares,
-    (width * 0.5) / x_squares
+    (width * 0.4) / x_squares,
+    (width * 0.4) / x_squares
   ) // square size in pixels
 
   //let x_squares = Math.round(Math.sqrt(farmland_m2) / m2_per_square);
@@ -50,8 +50,21 @@ function compute_grid_surface(farmland_m2) {
     (animation.grid_y_limit.end - animation.grid_y_limit.start) /
     frameRate()
 
+  // COUNTER
+  let counter_inc = round(
+    farmland_m2 /
+      (animation_length - animation.grid_y_limit.start) /
+      frameRate()
+  )
+
+  let counter = 0
+  let counter_pos = createVector(-grid_width * 0.5, 20, 0)
+
   return {
     animation_inc: animation_inc,
+    counter_inc: counter_inc,
+    counter: counter,
+    counter_pos: counter_pos,
     x_squares: x_squares,
     y_squares: y_squares,
     square_size: square_size,
@@ -61,9 +74,17 @@ function compute_grid_surface(farmland_m2) {
   }
 }
 
-function draw_grid_surface(animation, grid) {
+function draw_grid(animation, grid) {
   if (time_s >= animation.grid_y_limit.start) {
     // controls when animation begins
+
+    grid.counter += grid.counter_inc
+    display_counter(
+      grid.counter_pos,
+      grid.counter,
+      'm²',
+      'FARMLAND SAVED PER YEAR'
+    )
 
     push()
     translate(grid.grid_width / -2 - grid.square_size.x / 2, 0, 0) // move grid to centre
@@ -118,7 +139,7 @@ function compute_tree(c02) {
   let img_ratio = 1.3
   let img_height = img_width / img_ratio
 
-  let tree_pos = createVector(50, -img_height / 2, -100)
+  let tree_pos = createVector(100, -img_height / 2, -150)
 
   // tree type
   let inc = round(C02_MAX / 3)
@@ -182,13 +203,11 @@ function draw_tree(animation, tree) {
     noFill()
 
     tint(255, animation.tree_opacity.value)
-    // translate(50, grid_centre_pixels.y, grid_centre_pixels.z * 2 + 30)
-    translate(tree.tree_pos.x, 0, tree.tree_pos.z - tree.img_height)
+    translate(tree.tree_pos.x, 0, tree.tree_pos.z - tree.img_height * 0.95)
     rotateX(90)
-    //tint(0, animation.tree_opacity.value)
     tint(0, animation.tree_opacity.value - animation.tree_opacity.value * 0.8)
     texture(tree.tree_image)
-    plane(tree.img_width * 1.6, tree.img_height * 2)
+    plane(tree.img_width, tree.img_height * 1.5)
     pop()
 
     // Tree
@@ -255,12 +274,20 @@ function draw_water(animation, ring) {
 // WINDOW FRAME
 
 function compute_frame() {
-  let ratio = 1.4
+  let ratio = 1.3
   //frame vertices
-  let v1 = createVector(grid_width / 2, 0, tree.tree_pos.z) // bottom right
-  let v2 = createVector(-grid_width / 2, 0, tree.tree_pos.z) // bottom left
-  let v3 = createVector(-grid_width / 2, -grid_width * ratio, tree.tree_pos.z) // top left
-  let v4 = createVector(grid_width / 2, -grid_width * ratio, tree.tree_pos.z) // top right
+  let v1 = createVector(grid_width / 2, 0, tree.tree_pos.z - 5) // bottom right
+  let v2 = createVector(-grid_width / 2, 0, tree.tree_pos.z - 5) // bottom left
+  let v3 = createVector(
+    -grid_width / 2,
+    -grid_width * ratio,
+    tree.tree_pos.z - 20
+  ) // top left
+  let v4 = createVector(
+    grid_width / 2,
+    -grid_width * ratio,
+    tree.tree_pos.z - 20
+  ) // top right
 
   let frame_width = grid_width
   let frame_height = grid_width * ratio

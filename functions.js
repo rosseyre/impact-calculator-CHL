@@ -1,5 +1,10 @@
 // Supplementary functions
 
+function count(from, to, inc){
+  
+}
+
+
 function calculate_grid_centre(squares_per_row, square_size) {
   // returns 3D vector corresponding to centre of surface of grid
 

@@ -15,11 +15,10 @@ var beef_input_a,
   pork_input_a,
   pork_input_b // UI inputs
 var calculate_btn
-var font1 // Fonts
-var background_colour, background_colour_RGB, orange_colour
+var font_light, font_book, font_reg, font_med, font_bold // Fonts
+var background_colour, background_colour_RGB, orange_colour, text_colour
 
 function preload() {
-  font1 = loadFont('assets/fonts/IBMPlexSans-Regular.otf')
   img_tree_1 = loadImage('assets/imgs/tree1.png')
   img_tree_2 = loadImage('assets/imgs/tree2.png')
   img_tree_3 = loadImage('assets/imgs/tree3.png')
@@ -29,10 +28,11 @@ function preload() {
   img_shadow_3 = loadImage('assets/imgs/tree_shadow_3.png')
 
   img_water = loadImage('assets/imgs/water-ring.png')
-  // img_water = loadImage('assets/imgs/water.png')
-  // img_water_gradient = loadImage('assets/imgs/water-gradient.png')
 
-  img_cream = loadImage('assets/imgs/cream.png')
+  font_light = loadFont('assets/fonts/IBMPlexSans-Light.otf')
+  font_reg = loadFont('assets/fonts/IBMPlexSans-Regular.otf')
+  font_med = loadFont('assets/fonts/IBMPlexSans-Medium.otf')
+  font_bold = loadFont('assets/fonts/IBMPlexSans-SemiBold.otf')
 }
 
 function setup() {
@@ -52,9 +52,10 @@ function setup() {
   background_colour = color('#efe8df')
   background_colour_RGB = color(239, 232, 223)
   orange_colour = color('#f46a42')
+  text_colour = color('#333222')
 
-  //Typography
-  textFont(font1)
+  // Default Typography
+  textFont(font_reg)
   textSize(12)
   textAlign(CENTER, CENTER)
 
@@ -94,7 +95,7 @@ function draw() {
   if (compute_complete) {
     // Draw elements
 
-    draw_grid_surface(animation, grid)
+    draw_grid(animation, grid)
     draw_frame(animation, frame)
     draw_water(animation, ring)
     draw_tree(animation, tree)
@@ -104,8 +105,8 @@ function draw() {
 
     time_s += seconds_per_frame
   }
-  if (time_s > animation_length + 0.01) {
-    //noLoop()
+  if (time_s > animation_length + 0.05) {
+    noLoop()
   }
 }
 
