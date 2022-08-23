@@ -2,6 +2,7 @@
 
 // Calculate total impact of change and generate the scene
 function calculate() {
+  reset_animation_values()
   resetCanvas()
 
   beef_environmental_change = calculate_impact(

@@ -1,5 +1,5 @@
 var time_s, seconds_per_frame
-var canvas, cam, cam_tilt, renderer
+var canvas, cam, cam_tilt_degrees, renderer
 var compute_complete
 var img_tree_1, img_tree_2, img_tree_3
 var img_shadow_1, img_shadow_2, img_shadow_3
@@ -40,11 +40,11 @@ function setup() {
   setAttributes('alpha', true)
   noFill()
   // Paramaters
-  cam_tilt_degrees = 15
+  cam_tilt_degrees = 0
 
   // Cam setup
   cam = createCamera()
-  cam.setPosition(0, -150, 500) // close-up
+  cam.setPosition(0, -200, 800)
   angleMode(DEGREES)
   cam_tilt = cam.tilt(cam_tilt_degrees)
 
@@ -78,7 +78,7 @@ function setup() {
   background(background_colour)
 
   // Animation
-  let FPS = 30
+  let FPS = 25
   frameRate(FPS)
   seconds_per_frame = 1 / FPS
   time_s = 0.0
@@ -93,18 +93,19 @@ function draw() {
 
   if (compute_complete) {
     // Draw elements
-    draw_grid_surface(animation, grid)
 
+    draw_grid_surface(animation, grid)
+    draw_frame(animation, frame)
     draw_water(animation, ring)
     draw_tree(animation, tree)
-    //draw_frame();
+
     //draw_water();
     //draw_tree();
 
     time_s += seconds_per_frame
   }
-  if (time_s > animation_length) {
-    noLoop()
+  if (time_s > animation_length + 0.01) {
+    //noLoop()
   }
 }
 
@@ -114,7 +115,8 @@ function windowResized() {
 
 function resetCanvas() {
   reset_animation_values()
+  compute_complete = false
+  init_animation()
   clear()
   loop()
-  //setup()
 }

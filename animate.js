@@ -7,11 +7,8 @@ function init_animation() {
   animation = {
     grid_y_limit: create_animation(0, 0, 0, 1),
     tree_opacity: create_animation(0, 255, 0.5, 1.5), // time with frame
-    water_rotation: create_animation(0, 20, 1, 2.5),
-    // "tree": create_animation(value, start, end),
-    // "frame": create_animation(value, start, end),
-    // "title": create_animation(variable, value, start, end),
-    // "labels": create_animation(variable, value, start, end)
+    water_rotation: create_animation(0, 20, 0.5, 1.5),
+    frame_limit: create_animation(0, 100, 0, 2.5),
   }
 
   // determine total animation duration
