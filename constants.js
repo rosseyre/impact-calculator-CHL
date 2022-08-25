@@ -32,3 +32,8 @@ const PORK_WATER = 26520; // litres/year
 const LAND_MAX = 15726;
 const C02_MAX = 5359;
 const WATER_MAX = 1135940;
+
+
+// Comparisons
+const M2_FOOTBALL_FIELD = 7140
+const C02_PER_YEAR_PER_TREE = 21

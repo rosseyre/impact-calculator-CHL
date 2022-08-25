@@ -6,10 +6,9 @@ function init_animation() {
 
   animation = {
     grid_y_limit: create_animation(0, 0, 0, 2),
-    tree_opacity: create_animation(0, 255, 1.5, 2), // time with frame
+    tree_opacity: create_animation(0, 255, 1.5, 2.5), // time with frame
     water_rotation: create_animation(0, 15, 1, 2),
     frame_limit: create_animation(0, 100, 0, 2),
-    
   }
 
   // determine total animation duration

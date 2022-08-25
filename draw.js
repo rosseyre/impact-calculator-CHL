@@ -56,9 +56,8 @@ function compute_grid(farmland_m2) {
       (animation_length - animation.grid_y_limit.start) /
       frameRate()
   )
-
   let counter = 0
-  let counter_pos = createVector(-grid_width * 0.5, 20, 0)
+  let counter_pos = createVector(-grid_width * 0.5 + 10, 20, 0)
 
   return {
     animation_inc: animation_inc,
@@ -78,14 +77,17 @@ function draw_grid(animation, grid) {
   if (time_s >= animation.grid_y_limit.start) {
     // controls when animation begins
 
-    grid.counter += grid.counter_inc
+    // draw counter
     display_counter(
       grid.counter_pos,
       grid.counter,
       'm²',
-      'FARMLAND SAVED PER YEAR'
+      'FARMLAND SAVED PER YEAR',
+      'FOOTBALL FIELDS'
     )
+    grid.counter += grid.counter_inc
 
+    // draw grid
     push()
     translate(grid.grid_width / -2 - grid.square_size.x / 2, 0, 0) // move grid to centre
 
@@ -161,8 +163,18 @@ function compute_tree(c02) {
     (animation.tree_opacity.end - animation.tree_opacity.start) /
     frameRate()
 
+  // COUNTER
+  let counter_inc = round(
+    c02 / (animation_length - animation.tree_opacity.start) / frameRate()
+  )
+  let counter = 0
+  let counter_pos = createVector(grid_width / 2 - 5, -grid_width * 0.92, 0)
+
   return {
     animation_inc: animation_inc,
+    counter_inc: counter_inc,
+    counter: counter,
+    counter_pos: counter_pos,
     tree_pos: tree_pos,
     tree_image: tree_image,
     shadow_image: shadow_image,
@@ -173,29 +185,15 @@ function compute_tree(c02) {
 
 function draw_tree(animation, tree) {
   if (time_s >= animation.tree_opacity.start) {
-    // shadow perspective
-    // push()
-    // stroke(0)
-    // texture(tree.tree_image)
-    // //tint(255, animation.tree_opacity.value)
-    // //tint(0, animation.tree_opacity.value - animation.tree_opacity.value * 0.8)
-    // beginShape()
-    // vertex(tree.tree_pos.x, tree.tree_pos.y, -tree.tree_pos.z) //bottom left
-    // vertex(tree.tree_pos.x + tree.img_width, tree.tree_pos.y, -tree.tree_pos.z) // bottom right
-    // vertex(
-    //   tree.tree_pos.x - tree.img_width / 2,
-    //   tree.tree_pos.y,
-    //   tree.tree_pos.z - tree.img_height
-    // ) // top right
-    // vertex(
-    //   tree.tree_pos.x - tree.img_width,
-    //   tree.tree_pos.y,
-    //   tree.tree_pos.z - tree.img_height
-    // ) // top left
-
-    // endShape(CLOSE)
-
-    //pop()
+    // Draw counter
+    display_counter(
+      tree.counter_pos,
+      tree.counter,
+      'C0₂',
+      'SAVED IN A YEAR',
+      'TREES'
+    )
+    tree.counter += tree.counter_inc
 
     // shadow 2 plane version
     push()
@@ -203,7 +201,7 @@ function draw_tree(animation, tree) {
     noFill()
 
     tint(255, animation.tree_opacity.value)
-    translate(tree.tree_pos.x, 0, tree.tree_pos.z - tree.img_height * 0.95)
+    translate(tree.tree_pos.x, 0, tree.tree_pos.z - tree.img_height * 0.82)
     rotateX(90)
     tint(0, animation.tree_opacity.value - animation.tree_opacity.value * 0.8)
     texture(tree.tree_image)
@@ -232,11 +230,11 @@ function draw_tree(animation, tree) {
 
 function compute_water(water) {
   // size
-  let diameter = width * 0.2
+  let diameter = width * 0.18
 
   let init_pos = createVector(
-    -80,
-    -diameter - 50,
+    -100,
+    -grid_width * 0.75,
     tree.tree_pos.z - 10 // behind tree
   )
 
@@ -245,8 +243,18 @@ function compute_water(water) {
     (animation.water_rotation.end - animation.water_rotation.start) /
     frameRate()
 
+  // COUNTER
+  let counter_inc = round(
+    water / (animation_length - animation.tree_opacity.start) / frameRate()
+  )
+  let counter = 0
+  let counter_pos = createVector(-grid_width * 0.32, -grid_width * 1.05, 0)
+
   return {
     animation_inc: animation_inc,
+    counter_inc: counter_inc,
+    counter: counter,
+    counter_pos: counter_pos,
     diameter: diameter,
     init_pos: init_pos,
   }
@@ -254,6 +262,14 @@ function compute_water(water) {
 
 function draw_water(animation, ring) {
   if (time_s >= animation.water_rotation.start) {
+    // Draw counter
+
+    if (time_s > animation.water_rotation.end) {
+      display_counter(ring.counter_pos, ring.counter, 'litres', 'WATER SAVED')
+      ring.counter += ring.counter_inc
+    }
+
+    // Draw water
     push()
     noStroke()
     noFill()
