@@ -463,3 +463,33 @@ function draw_frame(animation, frame) {
     pop()
   }
 }
+
+
+
+function draw_title() {
+
+
+  push()
+
+  fill(text_colour)
+  textAlign(LEFT)
+
+  // HEADING
+  textFont(font_bold)
+  textSize(30)
+  translate(-grid.grid_width * 0.5 + 25.5, -frame_height*0.7)
+  text("YOUR +CHANGE", 1, 0)
+ 
+  // Vert line
+  strokeWeight(2)
+  stroke(orange_colour)
+  line(10, 25, 10, 80)
+
+  // SUBHEADING
+  textFont(font_med)
+  textSize(14)
+  text("VISUALISED IN A YEAR", 20, 72)
+
+
+  pop()
+}

@@ -111,6 +111,7 @@ function draw() {
     draw_frame(animation, frame)
     draw_water(animation, ring)
     draw_tree(animation, tree)
+    draw_title()
 
     time_s += seconds_per_frame
   }
