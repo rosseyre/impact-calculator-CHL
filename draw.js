@@ -21,11 +21,10 @@ function compute_grid(farmland_m2) {
 
   let m2_per_square = 4 // m^2 per rendered grid 'block'
   let square_size = createVector(
-    (width * 0.4) / x_squares,
-    (width * 0.4) / x_squares
+    draw_size.x / x_squares,
+    draw_size.x / x_squares
   ) // square size in pixels
 
-  //let x_squares = Math.round(Math.sqrt(farmland_m2) / m2_per_square);
   let y_squares = farmland_m2 / x_squares / m2_per_square
 
   if (y_squares < x_squares) {
@@ -38,12 +37,18 @@ function compute_grid(farmland_m2) {
     y_squares = x_squares * 3
   }
 
-  grid_width = calculate_grid_width(x_squares, square_size)
+  grid_width = x_squares * square_size.x
   grid_centre_pixels = calculate_grid_centre(x_squares, square_size)
 
   let start_colour = color(100, 100, 100)
   let stroke_colour = start_colour
   colorMode(RGB)
+
+  let grid_pos = createVector(
+    grid_width / -2 - square_size.x / 2,
+    frame_height / 2,
+    0
+  )
 
   let animation_inc =
     y_squares /
@@ -57,13 +62,15 @@ function compute_grid(farmland_m2) {
       frameRate()
   )
   let counter = 0
-  let counter_pos = createVector(-grid_width * 0.5 + 10, 20, 0)
+  let counter_pos = createVector(-grid_width * 0.5 + 10, grid_pos.y + 20, 0)
 
   return {
     animation_inc: animation_inc,
     counter_inc: counter_inc,
     counter: counter,
     counter_pos: counter_pos,
+    farmland_m2: farmland_m2,
+    grid_pos: grid_pos,
     x_squares: x_squares,
     y_squares: y_squares,
     square_size: square_size,
@@ -85,11 +92,11 @@ function draw_grid(animation, grid) {
       'FARMLAND SAVED PER YEAR',
       'FOOTBALL FIELDS'
     )
-    grid.counter += grid.counter_inc
+    grid.counter = inc_counter(grid.counter, grid.counter_inc, grid.farmland_m2) //increment
 
     // draw grid
     push()
-    translate(grid.grid_width / -2 - grid.square_size.x / 2, 0, 0) // move grid to centre
+    translate(grid.grid_pos)
 
     noFill()
     strokeWeight(0.4)
@@ -137,11 +144,15 @@ function draw_grid(animation, grid) {
 // TREE
 function compute_tree(c02) {
   // size
-  let img_width = width * 0.45
+  let img_width = draw_size.x * 1.2
   let img_ratio = 1.3
   let img_height = img_width / img_ratio
 
-  let tree_pos = createVector(100, -img_height / 2, -150)
+  let tree_pos = createVector(
+    80,
+    grid.grid_pos.y - img_height / 2,
+    grid.grid_pos.z - 100
+  )
 
   // tree type
   let inc = round(C02_MAX / 3)
@@ -168,13 +179,18 @@ function compute_tree(c02) {
     c02 / (animation_length - animation.tree_opacity.start) / frameRate()
   )
   let counter = 0
-  let counter_pos = createVector(grid_width / 2 - 5, -grid_width * 0.92, 0)
+  let counter_pos = createVector(
+    grid_width / 2 - 5,
+    grid.grid_pos.y - grid_width,
+    0
+  )
 
   return {
     animation_inc: animation_inc,
     counter_inc: counter_inc,
     counter: counter,
     counter_pos: counter_pos,
+    c02: c02,
     tree_pos: tree_pos,
     tree_image: tree_image,
     shadow_image: shadow_image,
@@ -193,19 +209,25 @@ function draw_tree(animation, tree) {
       'SAVED IN A YEAR',
       'TREES'
     )
-    tree.counter += tree.counter_inc
 
-    // shadow 2 plane version
+    tree.counter = inc_counter(tree.counter, tree.counter_inc, tree.c02) //increment
+
+    // Shadow
     push()
     noStroke()
     noFill()
 
-    tint(255, animation.tree_opacity.value)
-    translate(tree.tree_pos.x, 0, tree.tree_pos.z - tree.img_height * 0.82)
-    rotateX(90)
+    //tint(255, animation.tree_opacity.value)
+    translate(
+      tree.tree_pos.x - 40,
+      tree.tree_pos.y + tree.img_height / 2,
+      tree.tree_pos.z - tree.img_height / 2 - 5
+    )
+
     tint(0, animation.tree_opacity.value - animation.tree_opacity.value * 0.8)
-    texture(tree.tree_image)
-    plane(tree.img_width, tree.img_height * 1.5)
+    rotateX(90)
+    texture(tree.shadow_image)
+    plane(tree.img_width, tree.img_height)
     pop()
 
     // Tree
@@ -230,11 +252,11 @@ function draw_tree(animation, tree) {
 
 function compute_water(water) {
   // size
-  let diameter = width * 0.18
+  let diameter = draw_size.x * 0.4
 
   let init_pos = createVector(
-    -100,
-    -grid_width * 0.75,
+    -75,
+    grid.grid_pos.y - grid_width * 0.75,
     tree.tree_pos.z - 10 // behind tree
   )
 
@@ -248,13 +270,18 @@ function compute_water(water) {
     water / (animation_length - animation.tree_opacity.start) / frameRate()
   )
   let counter = 0
-  let counter_pos = createVector(-grid_width * 0.32, -grid_width * 1.05, 0)
+  let counter_pos = createVector(
+    -grid_width * 0.32,
+    grid.grid_pos.y - grid_width * 1.06,
+    0
+  )
 
   return {
     animation_inc: animation_inc,
     counter_inc: counter_inc,
     counter: counter,
     counter_pos: counter_pos,
+    water: water,
     diameter: diameter,
     init_pos: init_pos,
   }
@@ -264,16 +291,16 @@ function draw_water(animation, ring) {
   if (time_s >= animation.water_rotation.start) {
     // Draw counter
 
-    if (time_s > animation.water_rotation.end) {
-      display_counter(ring.counter_pos, ring.counter, 'litres', 'WATER SAVED')
-      ring.counter += ring.counter_inc
-    }
+    display_counter(ring.counter_pos, ring.counter, 'litres', 'WATER SAVED')
+    ring.counter = inc_counter(ring.counter, ring.counter_inc, ring.water) //increment
 
     // Draw water
     push()
     noStroke()
     noFill()
+    translate(-50, 0, 0)
     rotateZ(animation.water_rotation.value)
+    translate(+50, 0, 0)
     translate(ring.init_pos)
 
     texture(img_water)
@@ -290,24 +317,26 @@ function draw_water(animation, ring) {
 // WINDOW FRAME
 
 function compute_frame() {
-  let ratio = 1.3
+  let frame_width = grid_width - 20
+  let total_dist = frame_width * 2 + frame_height * 2
+
   //frame vertices
-  let v1 = createVector(grid_width / 2, 0, tree.tree_pos.z - 5) // bottom right
-  let v2 = createVector(-grid_width / 2, 0, tree.tree_pos.z - 5) // bottom left
+  let v1 = createVector(frame_width / 2, frame_height / 2, tree.tree_pos.z - 40) // bottom right
+  let v2 = createVector(
+    -frame_width / 2,
+    frame_height / 2,
+    tree.tree_pos.z - 40
+  ) // bottom left
   let v3 = createVector(
-    -grid_width / 2,
-    -grid_width * ratio,
-    tree.tree_pos.z - 20
+    -frame_width / 2,
+    -frame_height / 2,
+    tree.tree_pos.z - 40
   ) // top left
   let v4 = createVector(
-    grid_width / 2,
-    -grid_width * ratio,
-    tree.tree_pos.z - 20
+    frame_width / 2,
+    -frame_height / 2,
+    tree.tree_pos.z - 40
   ) // top right
-
-  let frame_width = grid_width
-  let frame_height = grid_width * ratio
-  let total_dist = frame_width * 2 + frame_height * 2
 
   // calculate turn points as fractions of whole
   let turn1 = (frame_width / total_dist) * 100 // bottom left
@@ -339,7 +368,7 @@ function draw_frame(animation, frame) {
   if (time_s >= animation.frame_limit.start) {
     push()
     stroke(orange_colour)
-    strokeWeight(2)
+    strokeWeight(2.5)
 
     if (time_s < animation.frame_limit.end) {
       // if animating
@@ -412,7 +441,17 @@ function draw_frame(animation, frame) {
 
       if (animation.frame_limit.value <= animation.frame_limit.final_value) {
         animation.frame_limit.value += frame.animation_inc
+      } else {
+        beginShape()
+      vertex(frame.v1.x, frame.v1.y, frame.v1.z)
+      vertex(frame.v2.x, frame.v2.y, frame.v2.z)
+      vertex(frame.v3.x, frame.v3.y, frame.v3.z)
+      vertex(frame.v4.x, frame.v4.y, frame.v4.z)
+      endShape(CLOSE)
       }
+
+      
+
     } else {
       beginShape()
       vertex(frame.v1.x, frame.v1.y, frame.v1.z)

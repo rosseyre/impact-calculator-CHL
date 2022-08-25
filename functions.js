@@ -12,12 +12,6 @@ function calculate_grid_centre(squares_per_row, square_size) {
   return createVector(half_grid, 0, -half_grid)
 }
 
-function calculate_grid_width(squares_per_row, square_size) {
-  // in pixels
-  let grid_width_pixels = squares_per_row * square_size.x
-  return grid_width_pixels
-}
-
 //logging
 function print_result() {
   console.log('POSITIVE ENVIRONMENTAL CHANGE')

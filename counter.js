@@ -53,3 +53,11 @@ function display_counter(
 
   pop()
 }
+
+function inc_counter(value, inc, max) {
+  if (value < max) {
+    return value + inc
+  } else {
+    return max
+  }
+}

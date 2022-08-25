@@ -1,5 +1,5 @@
 var time_s, seconds_per_frame
-var canvas, cam, cam_tilt_degrees, renderer
+var canvas, cam, cam_tilt_degrees, draw_size, frame_height
 var compute_complete
 var img_tree_1, img_tree_2, img_tree_3
 var img_shadow_1, img_shadow_2, img_shadow_3
@@ -39,12 +39,24 @@ function setup() {
   canvas = createCanvas(windowWidth, windowHeight, WEBGL)
   setAttributes('alpha', true)
   noFill()
+
+  let w = windowWidth
+  if (w > 450) {
+    // desktop break point
+    w = 450
+  }
+
+  let draw_width = w * 0.8
+  frame_height = draw_width * 1.3
+
+  // desktop max width
+  draw_size = createVector(draw_width, windowHeight)
   // Paramaters
   cam_tilt_degrees = 0
 
   // Cam setup
   cam = createCamera()
-  cam.setPosition(0, -200, 800)
+  cam.setPosition(0, 0, 800)
   angleMode(DEGREES)
   cam_tilt = cam.tilt(cam_tilt_degrees)
 
@@ -100,24 +112,24 @@ function draw() {
     draw_water(animation, ring)
     draw_tree(animation, tree)
 
-    //draw_water();
-    //draw_tree();
-
     time_s += seconds_per_frame
   }
   if (time_s > animation_length + 0.05) {
-    noLoop()
+    //noLoop()
   }
 }
 
 function windowResized() {
-  resetCanvas()
-}
-
-function resetCanvas() {
   reset_animation_values()
   compute_complete = false
   init_animation()
-  clear()
+  //clear()
   loop()
+}
+
+function resetCanvas() {
+  clear()
+  //loop()
+  compute_complete = false
+  init_animation()
 }
