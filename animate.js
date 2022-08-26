@@ -6,8 +6,8 @@ function init_animation() {
 
   animation = {
     grid_y_limit: create_animation(0, 0, 0, 2),
-    tree_opacity: create_animation(0, 255, 1.8, 2.5), // time with frame
-    water_rotation: create_animation(0, 40, 2.2, 3),
+    tree_opacity: create_animation(0, 255, 1.5, 2.5), // time with frame
+    water_rotation: create_animation(0, 40, 1.75, 2.5),
     frame_limit: create_animation(0, 100, 0, 2),
   }
 
@@ -19,6 +19,7 @@ function init_animation() {
     }
   }
 }
+
 
 function create_animation(init_value, final_value, start_time, end_time) {
   initial_values.push(init_value)

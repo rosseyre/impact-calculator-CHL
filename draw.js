@@ -180,8 +180,8 @@ function compute_tree(c02) {
   )
   let counter = 0
   let counter_pos = createVector(
-    grid_width / 2 - 5,
-    grid.grid_pos.y - grid_width,
+    grid_width / 2 - 10,
+    grid.grid_pos.y - grid_width - 5,
     0
   )
 
@@ -227,7 +227,7 @@ function draw_tree(animation, tree) {
     tint(0, animation.tree_opacity.value - animation.tree_opacity.value * 0.8)
     rotateX(90)
     texture(tree.shadow_image)
-    plane(tree.img_width, tree.img_height)
+    plane(tree.img_width*1.2, tree.img_height)
     pop()
 
     // Tree
@@ -252,10 +252,10 @@ function draw_tree(animation, tree) {
 
 function compute_water(water) {
   // size
-  let diameter = draw_size.x * 0.4
+  let diameter = draw_size.x * 0.42
 
   let init_pos = createVector(
-    -75,
+    -55,
     grid.grid_pos.y - grid_width * 0.75,
     tree.tree_pos.z - 10 // behind tree
   )
@@ -272,7 +272,7 @@ function compute_water(water) {
   let counter = 0
   let counter_pos = createVector(
     -grid_width * 0.32,
-    grid.grid_pos.y - grid_width * 1.06,
+    grid.grid_pos.y - grid_width * 1.1,
     0
   )
 
@@ -298,9 +298,9 @@ function draw_water(animation, ring) {
     push()
     noStroke()
     noFill()
-    translate(-50, 0, 0)
+    translate(-20, 0, 0)
     rotateZ(animation.water_rotation.value)
-    translate(+50, 0, 0)
+    translate(+20, 0, 0)
     translate(ring.init_pos)
 
     texture(img_water)
@@ -468,28 +468,29 @@ function draw_frame(animation, frame) {
 
 function draw_title() {
 
+  
+    push()
 
-  push()
+    fill(text_colour)
+    textAlign(LEFT)
 
-  fill(text_colour)
-  textAlign(LEFT)
+    // HEADING
+    textFont(font_bold)
+    textSize(28)
+    translate(-grid.grid_width * 0.5 + 25.5, -frame_height*0.7)
+    text("YOUR +CHANGE", 1, 0)
+  
+    // Vert line
+    strokeWeight(2)
+    stroke(orange_colour)
+    line(10, 25, 10, 80)
 
-  // HEADING
-  textFont(font_bold)
-  textSize(30)
-  translate(-grid.grid_width * 0.5 + 25.5, -frame_height*0.7)
-  text("YOUR +CHANGE", 1, 0)
- 
-  // Vert line
-  strokeWeight(2)
-  stroke(orange_colour)
-  line(10, 25, 10, 80)
+    // SUBHEADING
+    textFont(font_med)
+    textSize(14)
+    text("VISUALISED IN A YEAR", 20, 72)
 
-  // SUBHEADING
-  textFont(font_med)
-  textSize(14)
-  text("VISUALISED IN A YEAR", 20, 72)
-
-
-  pop()
+    pop()
+  
+    
 }

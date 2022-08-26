@@ -14,7 +14,7 @@ function display_counter(
 
   // Main value
   textFont(font_bold)
-  textSize(20)
+  textSize(18)
   //let s = concat(toString(value_primary), units_primary)
   text(value_primary + ' ' + units_primary, pos.x, pos.y)
   // units

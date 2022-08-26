@@ -44,7 +44,7 @@ function setup() {
   if (w > 450) {
     // desktop break point
     w = 450
-  }
+  } 
 
   let draw_width = w * 0.8
   frame_height = draw_width * 1.3
