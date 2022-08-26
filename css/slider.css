@@ -6,7 +6,7 @@
 .range-slider.overlay {
     width: 280px;
     padding-left: 15px;
-    padding-right: 15px;
+    padding-right: 10px;
     --primary-color: #fff;
     --track-height: 40px;
     --thumb-size: var(--track-height);
