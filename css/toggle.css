@@ -1,0 +1,78 @@
+.soy-beef-production {
+  display: block;
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+
+.toggle-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 20px;
+  padding-bottom: 100px;
+}
+
+.toggle-container {
+  display: flex;
+}
+
+.toggle-label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  height: 25px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  border-width: 1px;
+  font-family: 'IBMPlexSans-Bold', Fallback, sans-serif;
+  letter-spacing: 1.6px;
+}
+
+.label-beef {
+  border-color: #48473b;
+  border-style: solid;
+}
+
+.label-soy {
+  background-color: #f46a42;
+  color: #fff;
+}
+
+.check-box {
+  padding: 20px;
+}
+
+input[type='checkbox'] {
+  position: relative;
+  appearance: none;
+  width: 40px;
+  height: 15px;
+  background: #ccc;
+  border-radius: 50px;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+input:checked[type='checkbox'] {
+  background: #f46a42;
+}
+
+input[type='checkbox']::after {
+  position: absolute;
+  content: '';
+  width: 15px;
+  height: 15px;
+  top: 0;
+  left: 0;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  transform: scale(1.1);
+  transition: 0.4s;
+}
+
+input:checked[type='checkbox']::after {
+  left: 65%;
+}

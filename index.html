@@ -4,6 +4,7 @@
     <script src="p5/p5.min.js"></script>
     <link rel="stylesheet" type="text/css" href="css/main.css" />
     <link rel="stylesheet" type="text/css" href="css/slider.css" />
+    <link rel="stylesheet" type="text/css" href="css/toggle.css" />
     <meta charset="utf-8" />
   </head>
   <body>
@@ -15,6 +16,28 @@
     <script src="js/counter.js"></script>
 
     <main>
+      <div class="soy-beef-production">
+        <div class="toggle-image">
+          <img
+            id="toggle-image"
+            src="assets/imgs/beef-production.png"
+            width="80%"
+          />
+        </div>
+
+        <div class=".toggle-container">
+          <div class="toggle-label label-beef">BEEF</div>
+
+          <div class="check-box">
+            <input class="toggle-switch" type="checkbox" />
+          </div>
+
+          <div class="toggle-label label-soy">SOY</div>
+        </div>
+      </div>
+
+      <script src="js/toggle.js"></script>
+
       <container>
         <!-- Input: Beef -->
         <div class="slider-component">
