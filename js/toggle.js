@@ -4,7 +4,7 @@ const img_path_soy = 'assets/imgs/soy-production.png'
 var img_path = img_path_beef // default
 
 const toggle_switch = document.querySelector('.toggle-switch')
-const toggle_image = document.querySelector('#toggle-image')
+const toggle_image = document.querySelector('.toggle-image')
 
 toggle_switch.addEventListener('change', (e) => {
   if (e.target.checked) {
