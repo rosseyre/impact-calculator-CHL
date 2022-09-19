@@ -61,7 +61,7 @@ function setup() {
   cam_tilt = cam.tilt(cam_tilt_degrees)
 
   // Colours
-  background_colour = color('#efe8df')
+  background_colour = color('#F2e9DD')
   background_colour_RGB = color(239, 232, 223)
   orange_colour = color('#f46a42')
   text_colour = color('#333222')
